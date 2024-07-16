@@ -15,10 +15,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class QuizPage extends StatelessWidget {
-  const QuizPage({
-    super.key,
-  });
+class QuizPage extends StatefulWidget {
+  const QuizPage({super.key});
+
+  @override
+  State<QuizPage> createState() => _QuizPageState();
+}
+
+class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [
+    Icon(Icons.check, color: Colors.greenAccent),
+    Icon(Icons.close, color: Colors.redAccent),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +54,9 @@ class QuizPage extends StatelessWidget {
                   '¿El hombre llego a la luna? hhhhlhl hlkhklh hlhlh loh lhl  ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -78,6 +86,10 @@ class QuizPage extends StatelessWidget {
                 ),
                 color: Colors.red,
               ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: scoreKeeper,
             ),
             SizedBox(height: 80),
           ],
