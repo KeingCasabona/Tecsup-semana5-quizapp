@@ -23,10 +23,17 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [
-    Icon(Icons.check, color: Colors.greenAccent),
-    Icon(Icons.close, color: Colors.redAccent),
+  int questionNumber = 0;
+  List<String> questions = [
+    "El hombre llego a la Luna?,",
+    "Has almorzado algo?",
+    "Sientes frio?",
+    "Vas a salir mañana?",
   ];
+
+  List<bool> answers = [true, true, false, true];
+
+  List<Icon> scoreKeeper = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
               flex: 8,
               child: Center(
                 child: Text(
-                  '¿El hombre llego a la luna? hhhhlhl hlkhklh hlhlh loh lhl  ',
+                  questions[questionNumber],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 20,
@@ -62,7 +69,19 @@ class _QuizPageState extends State<QuizPage> {
             ),
             Expanded(
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(
+                    () {
+                      questionNumber++;
+                      scoreKeeper.add(
+                        Icon(
+                          Icons.close,
+                          color: Colors.redAccent,
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Text(
                   'Verdadero',
                   style: TextStyle(
