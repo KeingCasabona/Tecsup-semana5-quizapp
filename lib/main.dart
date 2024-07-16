@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/question.dart';
+import 'package:quizapp/quiz_brain.dart';
 
 void main() => runApp(const MyApp());
 
@@ -24,17 +24,9 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int questionNumber = 0;
-
-  List<Question> questionsAnswers = [
-    Question(questionText: "El hombre llego a la Luna?", questionAnswer: true),
-    Question(questionText: 'Has almorzado algo?', questionAnswer: true),
-    Question(questionText: 'Sientes frio?', questionAnswer: false),
-    Question(questionText: 'Vas a salir mañana?', questionAnswer: true),
-  ];
-
   List<Icon> scoreKeeper = [];
 
+  QuizBrain quizBrain = QuizBrain();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
               flex: 8,
               child: Center(
                 child: Text(
-                  questionsAnswers[questionNumber].questionText,
+                  quizBrain.getQuestionText(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 20,
@@ -72,8 +64,7 @@ class _QuizPageState extends State<QuizPage> {
                 onPressed: () {
                   setState(
                     () {
-                      bool correctAnswer =
-                          questionsAnswers[questionNumber].questionAnswer;
+                      bool correctAnswer = quizBrain.getQuestionAnswer();
                       if (correctAnswer == true) {
                         scoreKeeper.add(
                           Icon(
@@ -89,7 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                         );
                       }
-                      questionNumber++;
+                      quizBrain.nextQuestion();
                     },
                   );
                 },
@@ -109,8 +100,7 @@ class _QuizPageState extends State<QuizPage> {
                 onPressed: () {
                   setState(
                     () {
-                      bool correctAnswer =
-                          questionsAnswers[questionNumber].questionAnswer;
+                      bool correctAnswer = quizBrain.getQuestionAnswer();
                       if (correctAnswer == false) {
                         scoreKeeper.add(
                           Icon(
@@ -126,7 +116,7 @@ class _QuizPageState extends State<QuizPage> {
                           ),
                         );
                       }
-                      questionNumber++;
+                      quizBrain.nextQuestion();
                     },
                   );
                 },
