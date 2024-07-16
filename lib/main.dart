@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizapp/question.dart';
 
 void main() => runApp(const MyApp());
 
@@ -24,18 +25,12 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   int questionNumber = 0;
-  List<String> questions = [
-    "El hombre llego a la Luna?,",
-    "Has almorzado algo?",
-    "Sientes frio?",
-    "Vas a salir mañana?",
-  ];
 
-  List<bool> answers = [
-    true,
-    true,
-    false,
-    true,
+  List<Question> questionsAnswers = [
+    Question(questionText: "El hombre llego a la Luna?", questionAnswer: true),
+    Question(questionText: 'Has almorzado algo?', questionAnswer: true),
+    Question(questionText: 'Sientes frio?', questionAnswer: false),
+    Question(questionText: 'Vas a salir mañana?', questionAnswer: true),
   ];
 
   List<Icon> scoreKeeper = [];
@@ -63,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
               flex: 8,
               child: Center(
                 child: Text(
-                  questions[questionNumber],
+                  questionsAnswers[questionNumber].questionText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 20,
@@ -77,7 +72,8 @@ class _QuizPageState extends State<QuizPage> {
                 onPressed: () {
                   setState(
                     () {
-                      bool correctAnswer = answers[questionNumber];
+                      bool correctAnswer =
+                          questionsAnswers[questionNumber].questionAnswer;
                       if (correctAnswer == true) {
                         scoreKeeper.add(
                           Icon(
@@ -113,7 +109,8 @@ class _QuizPageState extends State<QuizPage> {
                 onPressed: () {
                   setState(
                     () {
-                      bool correctAnswer = answers[questionNumber];
+                      bool correctAnswer =
+                          questionsAnswers[questionNumber].questionAnswer;
                       if (correctAnswer == false) {
                         scoreKeeper.add(
                           Icon(
