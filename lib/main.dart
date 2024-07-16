@@ -31,7 +31,12 @@ class _QuizPageState extends State<QuizPage> {
     "Vas a salir mañana?",
   ];
 
-  List<bool> answers = [true, true, false, true];
+  List<bool> answers = [
+    true,
+    true,
+    false,
+    true,
+  ];
 
   List<Icon> scoreKeeper = [];
 
@@ -72,13 +77,23 @@ class _QuizPageState extends State<QuizPage> {
                 onPressed: () {
                   setState(
                     () {
+                      bool correctAnswer = answers[questionNumber];
+                      if (correctAnswer == true) {
+                        scoreKeeper.add(
+                          Icon(
+                            Icons.check,
+                            color: Colors.greenAccent,
+                          ),
+                        );
+                      } else {
+                        scoreKeeper.add(
+                          Icon(
+                            Icons.close,
+                            color: Colors.redAccent,
+                          ),
+                        );
+                      }
                       questionNumber++;
-                      scoreKeeper.add(
-                        Icon(
-                          Icons.close,
-                          color: Colors.redAccent,
-                        ),
-                      );
                     },
                   );
                 },
@@ -95,7 +110,29 @@ class _QuizPageState extends State<QuizPage> {
             SizedBox(height: 20),
             Expanded(
               child: MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(
+                    () {
+                      bool correctAnswer = answers[questionNumber];
+                      if (correctAnswer == false) {
+                        scoreKeeper.add(
+                          Icon(
+                            Icons.check,
+                            color: Colors.greenAccent,
+                          ),
+                        );
+                      } else {
+                        scoreKeeper.add(
+                          Icon(
+                            Icons.close,
+                            color: Colors.redAccent,
+                          ),
+                        );
+                      }
+                      questionNumber++;
+                    },
+                  );
+                },
                 child: Text(
                   'Falso',
                   style: TextStyle(
