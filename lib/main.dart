@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(const MyApp());
 
@@ -27,6 +28,51 @@ class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
   QuizBrain quizBrain = QuizBrain();
+
+  checkAnswer(bool userAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    // Actualiza el scoreKeeper aquí antes de verificar si el quiz ha terminado
+    setState(() {
+      if (scoreKeeper.length < quizBrain.getTotalQuestions()) {
+        if (correctAnswer == userAnswer) {
+          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+        } else {
+          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+        }
+      }
+    });
+
+    if (quizBrain.isFinished() == true) {
+      // Mostrar el cuadro de alerta después de actualizar el scoreKeeper
+      Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Quiz",
+        desc: "El preguntas han terminado",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Reiniciar",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+              quizBrain.restart();
+              setState(() {
+                scoreKeeper.clear();
+              });
+            },
+            width: 120,
+          )
+        ],
+      ).show();
+    } else {
+      // Si el quiz no ha terminado, simplemente continúa
+      quizBrain.nextQuestion();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,27 +108,7 @@ class _QuizPageState extends State<QuizPage> {
             Expanded(
               child: MaterialButton(
                 onPressed: () {
-                  setState(
-                    () {
-                      bool correctAnswer = quizBrain.getQuestionAnswer();
-                      if (correctAnswer == true) {
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.check,
-                            color: Colors.greenAccent,
-                          ),
-                        );
-                      } else {
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.close,
-                            color: Colors.redAccent,
-                          ),
-                        );
-                      }
-                      quizBrain.nextQuestion();
-                    },
-                  );
+                  checkAnswer(true);
                 },
                 child: Text(
                   'Verdadero',
@@ -98,27 +124,7 @@ class _QuizPageState extends State<QuizPage> {
             Expanded(
               child: MaterialButton(
                 onPressed: () {
-                  setState(
-                    () {
-                      bool correctAnswer = quizBrain.getQuestionAnswer();
-                      if (correctAnswer == false) {
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.check,
-                            color: Colors.greenAccent,
-                          ),
-                        );
-                      } else {
-                        scoreKeeper.add(
-                          Icon(
-                            Icons.close,
-                            color: Colors.redAccent,
-                          ),
-                        );
-                      }
-                      quizBrain.nextQuestion();
-                    },
-                  );
+                  checkAnswer(false);
                 },
                 child: Text(
                   'Falso',

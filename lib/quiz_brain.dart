@@ -18,7 +18,27 @@ class QuizBrain {
     return _questionsAnswers[_questionNumber].questionAnswer;
   }
 
-  int nextQuestion() {
-    return _questionNumber++;
+  nextQuestion() {
+    if (_questionNumber < _questionsAnswers.length - 1) {
+      _questionNumber++;
+    }
+  }
+
+//Verificar si el quiz ha terminado:
+  bool isFinished() {
+    if (_questionNumber == _questionsAnswers.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Reiniciar el quiz
+  void restart() {
+    _questionNumber = 0;
+  }
+
+  int getTotalQuestions() {
+    return _questionsAnswers.length;
   }
 }
